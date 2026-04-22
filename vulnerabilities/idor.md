@@ -38,16 +38,21 @@ ffuf -u https://target.com/api/user/FUZZ \
 
 ## Common IDOR Locations
 
-```
-Profile/account data:     GET /api/users/{id}
-Documents/files:          GET /api/documents/{id}
-Messages:                 GET /api/messages/{id}
-Orders/invoices:          GET /api/orders/{id}
-Admin actions:            POST /api/admin/users/{id}/disable
-Export functions:         GET /export?report_id={id}
-Password reset:           POST /reset?token={token}&user_id={id}
-Email preferences:        PUT /api/notifications/{id}
-```
+**Profile / account data** — `GET /api/users/{id}`
+
+**Documents / files** — `GET /api/documents/{id}`
+
+**Messages** — `GET /api/messages/{id}`
+
+**Orders / invoices** — `GET /api/orders/{id}`
+
+**Admin actions** — `POST /api/admin/users/{id}/disable`
+
+**Export functions** — `GET /export?report_id={id}`
+
+**Password reset** — `POST /reset?token={token}&user_id={id}`
+
+**Email preferences** — `PUT /api/notifications/{id}`
 
 ---
 
@@ -73,19 +78,22 @@ GET /api/data?ref=dXNlcjoxMjM0  (base64 of "user:1234")
 ## HTTP Method Escalation
 
 ```
-GET /api/admin/users/1234  → 403
-DELETE /api/admin/users/1234 → 200?  ← method-based access control failure
+GET /api/admin/users/1234    → 403
+DELETE /api/admin/users/1234 → 200?   ← method-based access control failure
 ```
 
 ---
 
 ## Impact Classification
 
-| Data Accessed | Severity |
-|--------------|----------|
-| Full PII (SSN, passport, financial) | Critical |
-| Account takeover via email change | Critical |
-| Another user's PII (name, address) | High |
-| Private messages or files | High |
-| Non-sensitive metadata | Medium |
-| Own data accessed via different method | Low |
+**Full PII (SSN, passport, financial data)** → Critical
+
+**Account takeover via email change** → Critical
+
+**Another user's PII (name, address, phone)** → High
+
+**Private messages or files** → High
+
+**Non-sensitive metadata** → Medium
+
+**Own data accessed via unintended method** → Low

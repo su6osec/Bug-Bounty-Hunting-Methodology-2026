@@ -35,118 +35,98 @@ This is not a beginner tutorial. This is an **operational playbook**.
 
 ## Methodology Flow
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                   BUG BOUNTY HUNTING FLOW 2026                       │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│  [0] Scope & Program Analysis                                         │
-│       └─► Read scope rules, classify (wide/medium/narrow)            │
-│                                                                       │
-│  [1] Passive Reconnaissance                                           │
-│       └─► OSINT, ASN, acquisitions, GitHub, certificates             │
-│                                                                       │
-│  [2] Active Enumeration                                               │
-│       └─► Subdomains → IPs → Ports → Live apps → Screenshots         │
-│                                                                       │
-│  [3] Vulnerability Discovery (Ebb & Flow)                             │
-│       └─► Inject ↔ Recon ↔ Inject ↔ Recon (iterate always)          │
-│                                                                       │
-│  [4] Exploitation & PoC                                               │
-│       └─► Reproduce, escalate severity, chain bugs                   │
-│                                                                       │
-│  [5] Reporting                                                         │
-│       └─► CVSS scoring, evidence, remediation, business impact       │
-│                                                                       │
-└─────────────────────────────────────────────────────────────────────┘
-```
+**Phase 0 — Scope & Program Analysis**
+Read scope rules, classify target (wide / medium / narrow), plan attack surface before touching any tool.
+
+**Phase 1 — Passive Reconnaissance**
+OSINT, ASN enumeration, acquisitions, GitHub code search, certificate logs — zero interaction with target.
+
+**Phase 2 — Active Enumeration**
+Subdomains → resolve to IPs → port scan → live HTTP apps → JS analysis → screenshots.
+
+**Phase 3 — Vulnerability Discovery** *(Ebb & Flow)*
+Identify 3–5 attack vectors → test briefly → return to recon to expand surface → repeat until done.
+
+**Phase 4 — Exploitation & PoC**
+Reproduce reliably, escalate severity, chain bugs for maximum impact, document everything.
+
+**Phase 5 — Reporting**
+CVSS scoring, structured evidence, remediation recommendations, business impact articulation.
 
 ---
 
 ## Table of Contents
 
-- [Phases](#-phases)
-- [Vulnerability Guides](#-vulnerability-guides)
-- [Checklists](#-checklists)
-- [Tools Arsenal](#-tools-arsenal)
-- [Automation & One-Liners](#-automation--one-liners)
-- [Resources](#-resources)
-- [Contributing](#-contributing)
+- [Phases](#phases)
+- [Vulnerability Guides](#vulnerability-guides)
+- [Checklists](#checklists)
+- [Tools Arsenal](#tools-arsenal)
+- [Automation & One-Liners](#automation--one-liners)
+- [Resources](#resources)
+- [Contributing](#contributing)
 
 ---
 
 ## Phases
 
-| # | Phase | Description |
-|---|-------|-------------|
-| 0 | [Scope & Program Analysis](phases/01_scope_and_program_analysis.md) | Understand rules, classify scope, plan attack |
-| 1 | [Passive Reconnaissance](phases/02_passive_reconnaissance.md) | OSINT, ASN, acquisitions, cert logs, GitHub leaks |
-| 2 | [Active Enumeration](phases/03_active_enumeration.md) | Subdomains, ports, live apps, JS analysis |
-| 3 | [Vulnerability Discovery](phases/04_vulnerability_discovery.md) | Injection points, logic flaws, API abuse |
-| 4 | [Exploitation & PoC](phases/05_exploitation_and_poc.md) | Bug chaining, severity escalation, PoC creation |
-| 5 | [Reporting](phases/06_reporting.md) | Structure, CVSS, evidence, remediation |
+- **[Phase 0 — Scope & Program Analysis](phases/01_scope_and_program_analysis.md)** — Understand rules, classify scope, plan attack
+- **[Phase 1 — Passive Reconnaissance](phases/02_passive_reconnaissance.md)** — OSINT, ASN, acquisitions, cert logs, GitHub leaks
+- **[Phase 2 — Active Enumeration](phases/03_active_enumeration.md)** — Subdomains, ports, live apps, JS analysis
+- **[Phase 3 — Vulnerability Discovery](phases/04_vulnerability_discovery.md)** — Injection points, logic flaws, API abuse
+- **[Phase 4 — Exploitation & PoC](phases/05_exploitation_and_poc.md)** — Bug chaining, severity escalation, PoC creation
+- **[Phase 5 — Reporting](phases/06_reporting.md)** — Structure, CVSS, evidence, remediation
 
 ---
 
 ## Vulnerability Guides
 
-| Vulnerability | Guide |
-|--------------|-------|
-| Cross-Site Scripting (XSS) | [xss.md](vulnerabilities/xss.md) |
-| SQL Injection | [sqli.md](vulnerabilities/sqli.md) |
-| IDOR | [idor.md](vulnerabilities/idor.md) |
-| SSRF | [ssrf.md](vulnerabilities/ssrf.md) |
-| CSRF | [csrf.md](vulnerabilities/csrf.md) |
-| LFI / RFI | [lfi_rfi.md](vulnerabilities/lfi_rfi.md) |
-| RCE | [rce.md](vulnerabilities/rce.md) |
-| XXE | [xxe.md](vulnerabilities/xxe.md) |
-| SSTI | [ssti.md](vulnerabilities/ssti.md) |
-| Open Redirect | [open_redirect.md](vulnerabilities/open_redirect.md) |
-| Subdomain Takeover | [subdomain_takeover.md](vulnerabilities/subdomain_takeover.md) |
-| File Upload | [file_upload.md](vulnerabilities/file_upload.md) |
-| HTTP Request Smuggling | [http_smuggling.md](vulnerabilities/http_smuggling.md) |
-| Business Logic | [business_logic.md](vulnerabilities/business_logic.md) |
-| Authentication Flaws | [authentication.md](vulnerabilities/authentication.md) |
-| API Security | [api_security.md](vulnerabilities/api_security.md) |
+- **[Cross-Site Scripting (XSS)](vulnerabilities/xss.md)** — Reflected, Stored, DOM, Blind; escalation to ATO
+- **[SQL Injection](vulnerabilities/sqli.md)** — Error, Union, Boolean, Time-based, OOB; SQLMap + Ghauri
+- **[IDOR](vulnerabilities/idor.md)** — Numeric, UUID, encoded references; horizontal + vertical escalation
+- **[SSRF](vulnerabilities/ssrf.md)** — Cloud metadata theft, blind SSRF, Gopherus chains
+- **[CSRF](vulnerabilities/csrf.md)** — Token bypass, SameSite abuse, CSRF+XSS chain
+- **[LFI / RFI](vulnerabilities/lfi_rfi.md)** — Path traversal, PHP wrappers, log poisoning → RCE
+- **[RCE](vulnerabilities/rce.md)** — Command injection, deserialization, SSTI, webshells
+- **[XXE](vulnerabilities/xxe.md)** — File read, SSRF, OOB exfil, SVG/DOCX upload vectors
+- **[SSTI](vulnerabilities/ssti.md)** — Jinja2, Twig, Freemarker, ERB; engine-specific RCE payloads
+- **[Open Redirect](vulnerabilities/open_redirect.md)** — Bypass techniques, OAuth token theft chain
+- **[Subdomain Takeover](vulnerabilities/subdomain_takeover.md)** — Fingerprints for 10+ services, claiming PoC
+- **[File Upload](vulnerabilities/file_upload.md)** — Extension bypass, magic bytes, .htaccess, ImageMagick
+- **[HTTP Request Smuggling](vulnerabilities/http_smuggling.md)** — CL.TE, TE.CL, TE.TE; access control bypass
+- **[Business Logic](vulnerabilities/business_logic.md)** — Race conditions, price manipulation, workflow bypass
+- **[Authentication Flaws](vulnerabilities/authentication.md)** — Enum, brute force, JWT attacks, OAuth, 2FA bypass
+- **[API Security](vulnerabilities/api_security.md)** — OWASP API Top 10, GraphQL, REST testing checklist
 
 ---
 
 ## Checklists
 
-| Checklist | Link |
-|-----------|------|
-| Master Bug Bounty Checklist | [master_checklist.md](checklists/master_checklist.md) |
-| Recon Checklist | [recon_checklist.md](checklists/recon_checklist.md) |
-| Web Application Checklist | [webapp_checklist.md](checklists/webapp_checklist.md) |
-| API Testing Checklist | [api_checklist.md](checklists/api_checklist.md) |
+- **[Master Bug Bounty Checklist](checklists/master_checklist.md)** — Full end-to-end checklist covering all phases
+- **[Recon Checklist](checklists/recon_checklist.md)** — Every recon command and output file to maintain
+- **[Web Application Checklist](checklists/webapp_checklist.md)** — Based on jhaddix tbhm + OWASP Testing Guide
+- **[API Testing Checklist](checklists/api_checklist.md)** — OWASP API Security Top 10 mapped to test cases
 
 ---
 
 ## Tools Arsenal
 
-| Category | Guide |
-|----------|-------|
-| Complete Tools Reference | [tools/README.md](tools/README.md) |
+- **[Complete Tools Reference](tools/README.md)** — 50+ tools organized by phase, with install commands and purpose
 
 ---
 
 ## Automation & One-Liners
 
-| Topic | Guide |
-|-------|-------|
-| Recon Automation Scripts | [automation/recon_automation.md](automation/recon_automation.md) |
-| Power One-Liners | [automation/oneliners.md](automation/oneliners.md) |
+- **[Recon Automation Scripts](automation/recon_automation.md)** — Full bash recon script + GF pipelines + XSS/SQLi automation
+- **[Power One-Liners](automation/oneliners.md)** — 30+ copy-paste ready one-liners for every phase
 
 ---
 
 ## Resources
 
-| Resource | Link |
-|----------|------|
-| Payloads Collection | [resources/payloads.md](resources/payloads.md) |
-| Wordlists Reference | [resources/wordlists.md](resources/wordlists.md) |
-| Learning Resources | [resources/learning_resources.md](resources/learning_resources.md) |
-| Bug Bounty Platforms | [resources/platforms.md](resources/platforms.md) |
+- **[Payloads Collection](resources/payloads.md)** — XSS, SQLi, SSRF, LFI, Command Injection, SSTI, XXE, Open Redirect
+- **[Wordlists Reference](resources/wordlists.md)** — SecLists, Assetnote, DNS resolvers, custom generation
+- **[Learning Resources](resources/learning_resources.md)** — Labs, books, YouTube channels, key talks, write-ups
+- **[Bug Bounty Platforms](resources/platforms.md)** — HackerOne, Bugcrowd, Intigriti, Immunefi and more
 
 ---
 

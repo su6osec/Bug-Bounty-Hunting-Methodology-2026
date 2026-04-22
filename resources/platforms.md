@@ -4,72 +4,64 @@
 
 ## Major Platforms
 
-| Platform | Focus | URL |
-|----------|-------|-----|
-| HackerOne | Web, Mobile, API | hackerone.com |
-| Bugcrowd | Web, IoT, Mobile | bugcrowd.com |
-| Intigriti | Web, API (EU-focused) | intigriti.com |
-| Synack | Invite-only, high-pay | synack.com |
-| YesWeHack | European programs | yeswehack.com |
-| Immunefi | Web3, Smart contracts | immunefi.com |
-| HackenProof | Blockchain, Web | hackenproof.com |
-| Cobalt | Pentest + bounty | cobalt.io |
+**[HackerOne](https://hackerone.com)** — Largest platform. Strong enterprise programs. Best public hacktivity feed for learning.
+
+**[Bugcrowd](https://bugcrowd.com)** — Strong US/AU presence. Good for IoT, mobile, and web programs.
+
+**[Intigriti](https://intigriti.com)** — EU-focused, fast response times, strong European programs.
+
+**[Synack](https://synack.com)** — Invite-only. Higher payouts, vetted researchers, controlled environment.
+
+**[YesWeHack](https://yeswehack.com)** — European platform, growing fast, solid program variety.
+
+**[Immunefi](https://immunefi.com)** — Web3/crypto focus. Highest payouts in the industry (millions for critical DeFi bugs).
+
+**[HackenProof](https://hackenproof.com)** — Blockchain and web application programs.
+
+**[Cobalt](https://cobalt.io)** — Pentest-as-a-service hybrid model, invite-only researcher community.
 
 ---
 
-## Self-Hosted Programs (MEGA List)
+## Self-Hosted Programs
 
-Many companies run their own programs. Check:
-- `https://company.com/.well-known/security.txt`
-- `https://company.com/security`
-- `https://company.com/bug-bounty`
-- `https://company.com/responsible-disclosure`
-
----
-
-## Scope Discovery Tips
+Many companies run their own programs. Check these paths on any target:
 
 ```bash
-# Check security.txt on targets
-curl -s "https://target.com/.well-known/security.txt"
-curl -s "https://target.com/security.txt"
-
-# HackerOne public programs via API
-curl "https://api.hackerone.com/v1/hackers/programs" \
-  -H "Authorization: Basic BASE64_CREDENTIALS" | \
-  jq -r '.data[].attributes | "\(.handle) - \(.submission_state)"'
+https://company.com/.well-known/security.txt
+https://company.com/security
+https://company.com/bug-bounty
+https://company.com/responsible-disclosure
 ```
 
 ---
 
 ## Choosing the Right Program
 
-```
-HIGH REWARD programs:
-  ✓ Finance/Banking apps
-  ✓ Healthcare platforms
-  ✓ Cloud infrastructure providers
-  ✓ Crypto/Web3 protocols
+**High reward potential:**
+- Finance / banking applications
+- Healthcare platforms with PHI
+- Cloud infrastructure providers
+- Crypto and Web3 protocols
+- Programs with wide wildcard scope
 
-GOOD FOR LEARNING:
-  ✓ Wide scope wildcards (*.company.com)
-  ✓ Programs with fast response times
-  ✓ Programs with clear scope docs
+**Good for building experience:**
+- Wide scope (`*.company.com`) — more surface, more opportunities
+- Programs with fast average response times
+- Programs with clear, well-documented scope
 
-AVOID (as beginner):
-  ✗ VDP (no bounty) unless practicing
-  ✗ Very narrow scopes (single login page)
-  ✗ Programs with 90+ day response time
-```
+**Worth avoiding early on:**
+- VDP (no bounty) until you're comfortable with the process
+- Very narrow scopes (single login page only)
+- Programs with 90+ day average response time
 
 ---
 
 ## Tracking Submissions
 
-```markdown
-| Date       | Program       | Bug Type  | Severity | Status   | Payout |
-|------------|---------------|-----------|----------|----------|--------|
-| 2026-01-01 | HackerOne/X   | XSS       | High     | Resolved | $500   |
-| 2026-01-15 | Bugcrowd/Y    | IDOR      | Medium   | Triaged  | TBD    |
-| 2026-02-01 | Intigriti/Z   | SSRF      | Critical | Open     | -      |
+```
+Date       | Program       | Bug Type  | Severity | Status   | Payout
+-----------|---------------|-----------|----------|----------|--------
+2026-01-01 | HackerOne/X   | XSS       | High     | Resolved | $500
+2026-01-15 | Bugcrowd/Y    | IDOR      | Medium   | Triaged  | TBD
+2026-02-01 | Intigriti/Z   | SSRF      | Critical | Open     | -
 ```

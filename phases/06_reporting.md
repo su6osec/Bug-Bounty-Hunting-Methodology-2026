@@ -104,7 +104,7 @@ as the web server user. This allows:
 
 ## Remediation
 
-1. Validate file extensions against an allowlist (e.g., jpg, png, pdf only)
+1. Validate file extensions against an allowlist (jpg, png, pdf only)
 2. Validate file content (magic bytes / MIME type) server-side
 3. Rename uploaded files to random UUIDs
 4. Store uploads outside the web root or in object storage (S3)
@@ -114,7 +114,7 @@ as the web server user. This allows:
 
 ## References
 
-- OWASP File Upload Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html
+- OWASP File Upload Cheat Sheet
 - CWE-434: Unrestricted Upload of File with Dangerous Type
 ```
 
@@ -132,45 +132,44 @@ as the web server user. This allows:
 - `[Critical] SSRF in Image Fetcher Exposes AWS EC2 Metadata Credentials`
 - `[Medium] IDOR in /api/v1/invoice/{id} Allows Reading Other Users' Invoices`
 
-**Formula:** `[Severity] Vuln Type in Feature/Endpoint → Business Impact`
+Formula: `[Severity] Vuln Type in Feature/Endpoint → Business Impact`
 
 ---
 
 ## 5.4 CVSS Quick Reference
 
-| Vector | Values |
-|--------|--------|
-| Attack Vector (AV) | Network (N) · Adjacent (A) · Local (L) · Physical (P) |
-| Attack Complexity (AC) | Low (L) · High (H) |
-| Privileges Required (PR) | None (N) · Low (L) · High (H) |
-| User Interaction (UI) | None (N) · Required (R) |
-| Scope (S) | Unchanged (U) · Changed (C) |
-| Confidentiality (C) | None (N) · Low (L) · High (H) |
-| Integrity (I) | None (N) · Low (L) · High (H) |
-| Availability (A) | None (N) · Low (L) · High (H) |
+**Attack Vector (AV)** — Network (N) · Adjacent (A) · Local (L) · Physical (P)
 
-**Calculator:** https://www.first.org/cvss/calculator/3.1
+**Attack Complexity (AC)** — Low (L) · High (H)
+
+**Privileges Required (PR)** — None (N) · Low (L) · High (H)
+
+**User Interaction (UI)** — None (N) · Required (R)
+
+**Scope (S)** — Unchanged (U) · Changed (C)
+
+**Confidentiality / Integrity / Availability** — None (N) · Low (L) · High (H)
+
+Calculator: https://www.first.org/cvss/calculator/3.1
 
 ---
 
 ## 5.5 Common CWEs to Reference
 
-| Vulnerability | CWE |
-|--------------|-----|
-| XSS | CWE-79 |
-| SQLi | CWE-89 |
-| IDOR | CWE-639 |
-| SSRF | CWE-918 |
-| CSRF | CWE-352 |
-| Open Redirect | CWE-601 |
-| RCE / OS Command Injection | CWE-78 |
-| File Upload | CWE-434 |
-| XXE | CWE-611 |
-| Path Traversal | CWE-22 |
-| Auth Bypass | CWE-287 |
-| Hardcoded Credentials | CWE-798 |
-| Missing HTTPS | CWE-319 |
-| Weak Password | CWE-521 |
+- **XSS** — CWE-79
+- **SQLi** — CWE-89
+- **IDOR** — CWE-639
+- **SSRF** — CWE-918
+- **CSRF** — CWE-352
+- **Open Redirect** — CWE-601
+- **RCE / OS Command Injection** — CWE-78
+- **File Upload** — CWE-434
+- **XXE** — CWE-611
+- **Path Traversal** — CWE-22
+- **Auth Bypass** — CWE-287
+- **Hardcoded Credentials** — CWE-798
+- **Missing HTTPS** — CWE-319
+- **Weak Password** — CWE-521
 
 ---
 
@@ -179,21 +178,19 @@ as the web server user. This allows:
 - **Respond to triage questions within 24 hours** — silence gets reports closed
 - **Be respectful** — triagers are not your enemy
 - **Provide additional evidence when asked** — don't argue severity in first response
-- **If severity is downgraded**, provide a clear business impact counter-argument
+- **If severity is downgraded**, provide a clear business impact counter-argument with CVSS math
 - **Don't reopen resolved tickets** unless the fix is bypassed
 
 ---
 
 ## 5.7 Tracking Your Submissions
 
-Maintain a local log:
-
 ```
 Date       | Program       | Vuln Type  | Severity | Status    | Bounty
 -----------|---------------|------------|----------|-----------|-------
-2026-01-15 | HackerOne/Acme| XSS        | High     | Resolved  | $1500
-2026-01-20 | Bugcrowd/Beta | IDOR       | Medium   | Triaged   | Pending
-2026-02-01 | Intigriti/X   | SSRF       | Critical | Open      | -
+2026-01-15 | HackerOne/X   | XSS        | High     | Resolved  | $1500
+2026-01-20 | Bugcrowd/Y    | IDOR       | Medium   | Triaged   | Pending
+2026-02-01 | Intigriti/Z   | SSRF       | Critical | Open      | -
 ```
 
 ---

