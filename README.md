@@ -1,17 +1,17 @@
 <div align="center">
 
 ```
-██████╗ ██╗   ██╗ ██████╗     ██████╗  ██████╗ ██╗   ██╗███╗   ██╗████████╗██╗   ██╗
-██╔══██╗██║   ██║██╔════╝     ██╔══██╗██╔═══██╗██║   ██║████╗  ██║╚══██╔══╝╚██╗ ██╔╝
-██████╔╝██║   ██║██║  ███╗    ██████╔╝██║   ██║██║   ██║██╔██╗ ██║   ██║    ╚████╔╝ 
-██╔══██╗██║   ██║██║   ██║    ██╔══██╗██║   ██║██║   ██║██║╚██╗██║   ██║     ╚██╔╝  
-██████╔╝╚██████╔╝╚██████╔╝    ██████╔╝╚██████╔╝╚██████╔╝██║ ╚████║   ██║      ██║   
-╚═════╝  ╚═════╝  ╚═════╝     ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝   ╚═╝      ╚═╝  
+██╗  ██╗██╗   ██╗███╗   ██╗████████╗██████╗  ██████╗  ██████╗ ██╗  ██╗
+██║  ██║██║   ██║████╗  ██║╚══██╔══╝██╔══██╗██╔═══██╗██╔═══██╗██║ ██╔╝
+███████║██║   ██║██╔██╗ ██║   ██║   ██████╔╝██║   ██║██║   ██║█████╔╝
+██╔══██║██║   ██║██║╚██╗██║   ██║   ██╔══██╗██║   ██║██║   ██║██╔═██╗
+██║  ██║╚██████╔╝██║ ╚████║   ██║   ██████╔╝╚██████╔╝╚██████╔╝██║  ██╗
+╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝  ╚═╝
 ```
 
-# Bug Bounty Hunting Methodology 2026
+# HuntBook — Bug Bounty Hunting Methodology 2026
 
-**A combat-tested, community-synthesized methodology for finding real vulnerabilities on real targets.**
+**A combat-tested, community-synthesized operational playbook for finding real vulnerabilities on real targets.**
 
 [![Maintained](https://img.shields.io/badge/Maintained-2026-brightgreen?style=for-the-badge)](https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
@@ -25,7 +25,7 @@
 
 ## What Is This?
 
-This repository is a **synthesized, battle-ready bug bounty hunting methodology for 2026** — compiled from the best public methodologies (jhaddix, R-s0n, amrelsagaei, blackhatethicalhacking, byoniq, and more), updated with modern tooling, and structured for real-world use.
+**HuntBook** is a synthesized, battle-ready bug bounty hunting methodology compiled from the best public methodologies — jhaddix, R-s0n, amrelsagaei, blackhatethicalhacking, byoniq, and more — updated with modern tooling and structured for real-world use across web, mobile, cloud, and Web3 targets.
 
 > **Recon is 90% of the work. Attacks are the remaining 10%.** — BHEH Framework
 
@@ -59,9 +59,15 @@ CVSS scoring, structured evidence, remediation recommendations, business impact 
 
 - [Phases](#phases)
 - [Vulnerability Guides](#vulnerability-guides)
+- [Mobile Testing](#mobile-testing)
+- [Cloud Security](#cloud-security)
+- [Target-Specific Guides](#target-specific-guides)
+- [Recon Deep Dives](#recon-deep-dives)
 - [Checklists](#checklists)
 - [Tools Arsenal](#tools-arsenal)
+- [Quick Wins](#quick-wins)
 - [Automation & One-Liners](#automation--one-liners)
+- [Setup](#setup)
 - [Resources](#resources)
 - [Contributing](#contributing)
 
@@ -69,33 +75,67 @@ CVSS scoring, structured evidence, remediation recommendations, business impact 
 
 ## Phases
 
-- **[Phase 0 — Scope & Program Analysis](phases/01_scope_and_program_analysis.md)** — Understand rules, classify scope, plan attack
-- **[Phase 1 — Passive Reconnaissance](phases/02_passive_reconnaissance.md)** — OSINT, ASN, acquisitions, cert logs, GitHub leaks
-- **[Phase 2 — Active Enumeration](phases/03_active_enumeration.md)** — Subdomains, ports, live apps, JS analysis
-- **[Phase 3 — Vulnerability Discovery](phases/04_vulnerability_discovery.md)** — Injection points, logic flaws, API abuse
-- **[Phase 4 — Exploitation & PoC](phases/05_exploitation_and_poc.md)** — Bug chaining, severity escalation, PoC creation
-- **[Phase 5 — Reporting](phases/06_reporting.md)** — Structure, CVSS, evidence, remediation
+- **[Phase 0 — Scope & Program Analysis](phases/01_scope_and_program_analysis.md)** — Understand rules, classify scope, identify high-value targets before any tool runs
+- **[Phase 1 — Passive Reconnaissance](phases/02_passive_reconnaissance.md)** — OSINT, ASN, acquisitions, cert logs, GitHub leaks, Shodan, Wayback
+- **[Phase 2 — Active Enumeration](phases/03_active_enumeration.md)** — Subdomains, ports, live apps, JS analysis, parameter discovery, cloud assets
+- **[Phase 3 — Vulnerability Discovery](phases/04_vulnerability_discovery.md)** — Ebb & Flow model, injection points, logic flaws, API abuse, full testing coverage
+- **[Phase 4 — Exploitation & PoC](phases/05_exploitation_and_poc.md)** — Bug chaining, severity escalation paths, PoC creation standards
+- **[Phase 5 — Reporting](phases/06_reporting.md)** — Report template, CVSS scoring, CWE reference, title guide, communication tips
 
 ---
 
 ## Vulnerability Guides
 
-- **[Cross-Site Scripting (XSS)](vulnerabilities/xss.md)** — Reflected, Stored, DOM, Blind; escalation to ATO
-- **[SQL Injection](vulnerabilities/sqli.md)** — Error, Union, Boolean, Time-based, OOB; SQLMap + Ghauri
-- **[IDOR](vulnerabilities/idor.md)** — Numeric, UUID, encoded references; horizontal + vertical escalation
-- **[SSRF](vulnerabilities/ssrf.md)** — Cloud metadata theft, blind SSRF, Gopherus chains
-- **[CSRF](vulnerabilities/csrf.md)** — Token bypass, SameSite abuse, CSRF+XSS chain
+- **[Cross-Site Scripting (XSS)](vulnerabilities/xss.md)** — Reflected, Stored, DOM, Blind; ATO escalation; filter bypass payloads
+- **[SQL Injection](vulnerabilities/sqli.md)** — Error, Union, Boolean, Time-based, OOB; SQLMap, Ghauri; WAF bypass
+- **[IDOR](vulnerabilities/idor.md)** — Numeric, UUID, encoded references; horizontal + vertical escalation; HTTP method abuse
+- **[SSRF](vulnerabilities/ssrf.md)** — Cloud metadata theft, blind OOB detection, Gopherus chains, filter bypasses
+- **[CSRF](vulnerabilities/csrf.md)** — Token bypass, SameSite abuse, CSRF+XSS chain; PoC HTML template
 - **[LFI / RFI](vulnerabilities/lfi_rfi.md)** — Path traversal, PHP wrappers, log poisoning → RCE
-- **[RCE](vulnerabilities/rce.md)** — Command injection, deserialization, SSTI, webshells
-- **[XXE](vulnerabilities/xxe.md)** — File read, SSRF, OOB exfil, SVG/DOCX upload vectors
-- **[SSTI](vulnerabilities/ssti.md)** — Jinja2, Twig, Freemarker, ERB; engine-specific RCE payloads
+- **[RCE](vulnerabilities/rce.md)** — Command injection, deserialization (Java/PHP/Python), SSTI, webshells, reverse shells
+- **[XXE](vulnerabilities/xxe.md)** — File read, SSRF, OOB exfil via DTD, SVG/DOCX upload vectors
+- **[SSTI](vulnerabilities/ssti.md)** — Jinja2, Twig, Freemarker, ERB, Velocity; engine-specific RCE payloads; tplmap
 - **[Open Redirect](vulnerabilities/open_redirect.md)** — Bypass techniques, OAuth token theft chain
-- **[Subdomain Takeover](vulnerabilities/subdomain_takeover.md)** — Fingerprints for 10+ services, claiming PoC
-- **[File Upload](vulnerabilities/file_upload.md)** — Extension bypass, magic bytes, .htaccess, ImageMagick
-- **[HTTP Request Smuggling](vulnerabilities/http_smuggling.md)** — CL.TE, TE.CL, TE.TE; access control bypass
-- **[Business Logic](vulnerabilities/business_logic.md)** — Race conditions, price manipulation, workflow bypass
-- **[Authentication Flaws](vulnerabilities/authentication.md)** — Enum, brute force, JWT attacks, OAuth, 2FA bypass
-- **[API Security](vulnerabilities/api_security.md)** — OWASP API Top 10, GraphQL, REST testing checklist
+- **[Subdomain Takeover](vulnerabilities/subdomain_takeover.md)** — Fingerprints for 12+ services, Nuclei detection, responsible PoC claiming
+- **[File Upload](vulnerabilities/file_upload.md)** — Extension bypass, magic bytes, Content-Type, .htaccess, ImageMagick
+- **[HTTP Request Smuggling](vulnerabilities/http_smuggling.md)** — CL.TE, TE.CL, TE.TE; access control bypass; automated detection
+- **[Business Logic](vulnerabilities/business_logic.md)** — Race conditions, price manipulation, workflow bypass, trust boundary violations
+- **[Authentication Flaws](vulnerabilities/authentication.md)** — Enumeration, brute force, JWT attacks, OAuth flows, 2FA bypass techniques
+- **[API Security](vulnerabilities/api_security.md)** — OWASP API Top 10, GraphQL introspection abuse, REST checklist
+- **[OAuth 2.0 / OIDC](vulnerabilities/oauth.md)** — redirect_uri bypass, CSRF, code interception, account linking ATO, token theft chains
+- **[CORS Misconfiguration](vulnerabilities/cors.md)** — Origin reflection, null origin, subdomain chain, exploitation PoC
+- **[Prototype Pollution](vulnerabilities/prototype_pollution.md)** — Client-side XSS gadgets, server-side Node.js RCE, automated detection
+- **[Web3 / Smart Contracts](vulnerabilities/web3.md)** — Reentrancy, access control, oracle manipulation, flash loans, Slither, Echidna
+
+---
+
+## Mobile Testing
+
+- **[Android](mobile/android.md)** — APK decompilation, secret hunting, certificate pinning bypass, Frida/Objection, deep links, WebView
+- **[iOS](mobile/ios.md)** — IPA analysis, class-dump, Keychain dumping, SSL Kill Switch, runtime hooking, Frida
+
+---
+
+## Cloud Security
+
+- **[AWS](cloud/aws.md)** — S3 bucket enumeration, IMDSv1 SSRF credential theft, IAM abuse, Secrets Manager, stolen credential usage
+- **[GCP](cloud/gcp.md)** — GCS bucket testing, metadata token theft, service account key files, privilege escalation paths
+- **[Azure](cloud/azure.md)** — Blob storage, IMDS credential theft, SAS token abuse, Azure AD enumeration, Key Vault access
+
+---
+
+## Target-Specific Guides
+
+- **[Fintech & Banking](targets/fintech.md)** — Payment manipulation, KYC bypass, webhook signature abuse, Open Banking API, HIPAA/PCI severity escalation
+- **[SaaS Platforms](targets/saas.md)** — Multi-tenancy isolation, role escalation, API key abuse, subdomain CORS chain, feature flag bypass
+- **[Healthcare & MedTech](targets/healthcare.md)** — PHI exposure, FHIR API abuse, HIPAA compliance severity escalation, medical device APIs
+- **[E-Commerce](targets/ecommerce.md)** — Price manipulation, coupon race conditions, order IDOR, payment webhook bypass, gift card abuse
+
+---
+
+## Recon Deep Dives
+
+- **[GitHub Recon](recon/github_recon.md)** — Org enumeration, secret scanning dorks, git history mining, CI/CD config analysis, developer personal accounts, automated tools
 
 ---
 
@@ -110,14 +150,30 @@ CVSS scoring, structured evidence, remediation recommendations, business impact 
 
 ## Tools Arsenal
 
-- **[Complete Tools Reference](tools/README.md)** — 50+ tools organized by phase, with install commands and purpose
+- **[Complete Tools Reference](tools/README.md)** — 50+ tools organized by phase with install commands and purpose
+
+---
+
+## Quick Wins
+
+- **[15 High-ROI Techniques](tips/quick_wins.md)** — Techniques that take under 15 minutes each and have a disproportionately high hit rate on every target
 
 ---
 
 ## Automation & One-Liners
 
-- **[Recon Automation Scripts](automation/recon_automation.md)** — Full bash recon script + GF pipelines + XSS/SQLi automation
+- **[Recon Automation Scripts](automation/recon_automation.md)** — Full bash recon script, GF pipelines, XSS and SQLi automation
 - **[Power One-Liners](automation/oneliners.md)** — 30+ copy-paste ready one-liners for every phase
+
+---
+
+## Setup
+
+- **[One-Shot Installer](setup/install.sh)** — Installs all tools on Kali Linux or Ubuntu 22.04+
+
+```bash
+chmod +x setup/install.sh && sudo ./setup/install.sh
+```
 
 ---
 
@@ -149,12 +205,9 @@ CVSS scoring, structured evidence, remediation recommendations, business impact 
 
 ## Contributing
 
-Pull requests are welcome. If you have:
-- A new technique that worked in 2025/2026
-- A better one-liner for a phase
-- A bug fix in a checklist
+Pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-Open a PR or issue. See [CONTRIBUTING.md](CONTRIBUTING.md).
+If you have a technique that worked in 2025/2026, a better one-liner, or a bug fix — open a PR.
 
 ---
 
